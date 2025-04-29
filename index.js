@@ -1,5 +1,6 @@
 require('dotenv').config();  // Cargar variables de entorno desde .env
 
+const path = require('path');  // Asegúrate de importar 'path'
 const express = require('express');
 const mysql = require('mysql2');
 const app = express();
@@ -26,15 +27,10 @@ connection.connect((err) => {
 });
 
 
-  // Ruta de prueba
-  app.get('/', (req, res) => {
-    console.log('Ruta raíz accedida');
-    res.send('¡Hola, VCT EMEA!');
-  });
-
-  app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'Frontend', 'main.html'));
-  });
+app.get('/', (req, res) => {
+  // Aquí puedes servir el archivo 'main.html' que está en la carpeta 'Frontend'
+  res.sendFile(path.join(__dirname, 'Frontend', 'main.html'));
+});
 
   // POST para actualizar el resultado de un partido
   app.post('/api/resultado', (req, res) => {
