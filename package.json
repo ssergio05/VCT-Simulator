@@ -1,5 +1,14 @@
 {
+  "name": "vct-emea-simulator",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
   "dependencies": {
+    "express": "^4.21.2",
+    "cors": "^2.8.5",
+    "mysql2": "^3.4.0",
     "dotenv": "^16.5.0"
   }
 }
