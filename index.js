@@ -2,7 +2,7 @@ const express = require('express');
 const mysql = require('mysql2');
 const path = require('path');  // Importamos path para trabajar con rutas
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080; // Usa 8080 solo si no hay un valor en PORT
 
 const cors = require('cors');
 app.use(cors());
