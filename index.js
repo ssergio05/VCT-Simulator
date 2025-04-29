@@ -1,29 +1,30 @@
-  require('dotenv').config();  // Cargar variables de entorno desde .env
- 
-  const express = require('express');
-  const mysql = require('mysql2');
-  const app = express();
-  const port = 3000;
+require('dotenv').config();  // Cargar variables de entorno desde .env
 
-  const cors = require('cors');
-  app.use(cors());
-  app.use(express.json());
+const express = require('express');
+const mysql = require('mysql2');
+const app = express();
+const port = 3000;
 
-  // Conexión a la base de datos
+const cors = require('cors');
+app.use(cors());
+app.use(express.json());
+
+// Conexión a la base de datos
 const connection = mysql.createConnection({
-  host: process.env.DB_HOST,        // Usar la variable de entorno DB_HOST
-  user: process.env.DB_USER,        // Usar la variable de entorno DB_USER
-  password: process.env.DB_PASSWORD, // Usar la variable de entorno DB_PASSWORD
-  database: process.env.DB_NAME     // Usar la variable de entorno DB_NAME
+  host: process.env.MYSQLHOST,        // Usar la variable de entorno MYSQLHOST proporcionada por Railway
+  user: process.env.MYSQLUSER,        // Usar la variable de entorno MYSQLUSER proporcionada por Railway
+  password: process.env.MYSQLPASSWORD, // Usar la variable de entorno MYSQLPASSWORD proporcionada por Railway
+  database: process.env.MYSQLDATABASE  // Usar la variable de entorno MYSQLDATABASE proporcionada por Railway
 });
 
-  connection.connect((err) => {
-    if (err) {
-      console.error('Error de conexión a la base de datos:', err.stack);
-      return;
-    }
-    console.log('Conectado a la base de datos MySQL');
-  });
+connection.connect((err) => {
+  if (err) {
+    console.error('Error de conexión a la base de datos:', err.stack);
+    return;
+  }
+  console.log('Conectado a la base de datos MySQL');
+});
+
 
   // Ruta de prueba
   app.get('/', (req, res) => {
