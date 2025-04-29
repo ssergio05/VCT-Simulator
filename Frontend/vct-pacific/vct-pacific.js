@@ -8,7 +8,7 @@ function actualizarSemana() {
     btn.classList.toggle('selected', btn.dataset.semana == semanaActual);
   });
 
-  fetch(`http://localhost:3000/api/partidos?liga_id=${ligaActual}`)
+  fetch(`/api/partidos?liga_id=${ligaActual}`)
     .then(res => res.json())
     .then(partidos => {
       // 👉 Ahora filtramos usando la columna 'semana' directamente
@@ -132,7 +132,7 @@ function enviarResultadoDesdePartido(partido) {
     liga_id: ligaActual
   };
 
-  fetch('http://localhost:3000/api/resultado', {
+  fetch('/api/resultado', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(datos)
@@ -147,7 +147,7 @@ function enviarResultadoDesdePartido(partido) {
 
 // 📊 Clasificación
 function cargarClasificacion() {
-  fetch(`http://localhost:3000/api/clasificacion?liga_id=${ligaActual}`)
+  fetch(`/api/clasificacion?liga_id=${ligaActual}`)
     .then(res => res.json())
     .then(data => {
       const equiposAlpha = data.filter(e => e.equipo_grupo === 'Alpha');
@@ -196,9 +196,9 @@ document.querySelectorAll('.semana-btn').forEach(btn => {
 
 // 🚀 Inicialización
 document.addEventListener('DOMContentLoaded', () => {
-  fetch('http://localhost:3000/api/sincronizar-resultados-confirmados', { method: 'POST' })
+  fetch('/api/sincronizar-resultados-confirmados', { method: 'POST' })
     .then(res => res.json())
-    .then(() => fetch('http://localhost:3000/api/inicializar-resultados', { method: 'POST' }))
+    .then(() => fetch('/api/inicializar-resultados', { method: 'POST' }))
     .then(res => res.json())
     .then(() => {
       cargarClasificacion();
