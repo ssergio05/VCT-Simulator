@@ -1,9 +1,8 @@
-require('dotenv').config();  // Cargar variables de entorno desde .env
-
 const express = require('express');
 const mysql = require('mysql2');
+const path = require('path');  // Importamos path para trabajar con rutas
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 const cors = require('cors');
 app.use(cors());
@@ -11,10 +10,10 @@ app.use(express.json());
 
 // Conexión a la base de datos
 const connection = mysql.createConnection({
-  host: process.env.MYSQLHOST,        // Usar la variable de entorno MYSQLHOST proporcionada por Railway
-  user: process.env.MYSQLUSER,        // Usar la variable de entorno MYSQLUSER proporcionada por Railway
-  password: process.env.MYSQLPASSWORD, // Usar la variable de entorno MYSQLPASSWORD proporcionada por Railway
-  database: process.env.MYSQLDATABASE  // Usar la variable de entorno MYSQLDATABASE proporcionada por Railway
+  host: process.env.MYSQLHOST,        
+  user: process.env.MYSQLUSER,        
+  password: process.env.MYSQLPASSWORD, 
+  database: process.env.MYSQLDATABASE  
 });
 
 connection.connect((err) => {
@@ -25,12 +24,13 @@ connection.connect((err) => {
   console.log('Conectado a la base de datos MySQL');
 });
 
+// Servir los archivos estáticos del frontend
+app.use(express.static(path.join(__dirname, 'frontend')));
 
-  // Ruta de prueba
-  app.get('/', (req, res) => {
-    console.log('Ruta raíz accedida');
-    res.send('¡Hola, VCT EMEA!');
-  });
+// Ruta para servir el archivo 'index.html'
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
+});
 
   // POST para actualizar el resultado de un partido
   app.post('/api/resultado', (req, res) => {
