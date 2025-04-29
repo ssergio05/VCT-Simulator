@@ -32,6 +32,12 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
 });
 
+  // Ruta de prueba
+  app.get('/', (req, res) => {
+    console.log('Ruta raíz accedida');
+    res.send('¡Hola, VCT EMEA!');
+  });
+
   // POST para actualizar el resultado de un partido
   app.post('/api/resultado', (req, res) => {
     const { equipo1_id, equipo2_id, score_equipo1, score_equipo2 } = req.body;
