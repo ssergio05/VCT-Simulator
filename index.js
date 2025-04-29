@@ -32,6 +32,10 @@ connection.connect((err) => {
     res.send('¡Hola, VCT EMEA!');
   });
 
+  app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'Frontend', 'main.html'));
+  });
+
   // POST para actualizar el resultado de un partido
   app.post('/api/resultado', (req, res) => {
     const { equipo1_id, equipo2_id, score_equipo1, score_equipo2 } = req.body;
