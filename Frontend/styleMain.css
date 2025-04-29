@@ -1,0 +1,97 @@
+body {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  height: 100vh;
+  width: 100vw;
+}
+
+.vct-emea-container a {
+  background: radial-gradient(circle, #a3cc00, #6b8e23); /* Fondo degradado radial */
+  display: flex; /* Asegura que el enlace use flexbox */
+  justify-content: center; /* Centra el contenido horizontalmente */
+  align-items: center; /* Centra el contenido verticalmente */
+  width: 100%; /* Asegura que el enlace ocupe todo el ancho del contenedor */
+  height: 100%; /* Asegura que el enlace ocupe toda la altura del contenedor */
+  border: 1px solid #000;
+  text-decoration: none; /* Elimina el subrayado del enlace */
+}
+
+.vct-americas-container a {
+  background: radial-gradient(circle, #f75817, #cc4400); /* Fondo degradado radial */
+  display: flex; /* Asegura que el enlace use flexbox */
+  justify-content: center; /* Centra el contenido horizontalmente */
+  align-items: center; /* Centra el contenido verticalmente */
+  width: 100%; /* Asegura que el enlace ocupe todo el ancho del contenedor */
+  height: 100%; /* Asegura que el enlace ocupe toda la altura del contenedor */
+  border: 1px solid #000;
+  text-decoration: none; /* Elimina el subrayado del enlace */
+}
+
+.vct-pacific-container a {
+  background: radial-gradient(circle, #01d2d7, #0099a0); /* Fondo degradado radial */
+  display: flex; /* Asegura que el enlace use flexbox */
+  justify-content: center; /* Centra el contenido horizontalmente */
+  align-items: center; /* Centra el contenido verticalmente */
+  width: 100%; /* Asegura que el enlace ocupe todo el ancho del contenedor */
+  height: 100%; /* Asegura que el enlace ocupe toda la altura del contenedor */
+  border: 1px solid #000;
+  text-decoration: none; /* Elimina el subrayado del enlace */
+}
+
+.vct-china-container a {
+  background: radial-gradient(circle, #e73056, #b02040); /* Fondo degradado radial */
+  display: flex; /* Asegura que el enlace use flexbox */
+  justify-content: center; /* Centra el contenido horizontalmente */
+  align-items: center; /* Centra el contenido verticalmente */
+  width: 100%; /* Asegura que el enlace ocupe todo el ancho del contenedor */
+  height: 100%; /* Asegura que el enlace ocupe toda la altura del contenedor */
+  border: 1px solid #000;
+  text-decoration: none; /* Elimina el subrayado del enlace */
+}
+
+.logo {
+  max-width: 35%; /* Ajusta el tamaño del logo */
+  max-height: 35%;
+  object-fit: contain; /* Mantiene las proporciones de la imagen */
+  margin: 0;
+  padding: 0;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.5)); /* Sombra para el logo */
+}
+
+.logo:hover {
+  transform: scale(1.1); /* Aumenta ligeramente el tamaño del logo */
+  filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.7)) brightness(1.2); /* Sombra más fuerte y más brillo */
+  transition: transform 0.3s ease, filter 0.3s ease; /* Transición suave para los efectos */
+}
+
+.vct-emea-container,
+.vct-americas-container,
+.vct-pacific-container,
+.vct-china-container {
+  position: relative; /* Necesario para posicionar la capa detrás del logo */
+}
+
+.vct-emea-container::before,
+.vct-americas-container::before,
+.vct-pacific-container::before,
+.vct-china-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4); /* Capa semitransparente oscura */
+  z-index: 1; /* Coloca la capa detrás del logo */
+}
+
+.logo {
+  position: relative;
+  z-index: 2; /* Asegura que el logo esté encima de la capa */
+  max-width: 35%;
+  max-height: 35%;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.5));
+}

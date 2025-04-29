@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VCT Americas Simulator</title>
+  <link rel="stylesheet" href="styleAmericas.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-left">
+      <a href="../main.html" class="navbar-title">Inicio</a>
+      <a href="../vct-emea/vct-emea.html" class="navbar-title-emea">VCT EMEA</a>
+      <a href="../vct-pacific/vct-pacific.html" class="navbar-title-pacific">VCT Pacific</a>
+      <a href="../vct-china/vct-china.html" class="navbar-title-china">VCT China</a>
+      
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="semana-selector">
+      <button class="semana-btn" data-semana="1">Semana 1</button>
+      <button class="semana-btn" data-semana="2">Semana 2</button>
+      <button class="semana-btn" data-semana="3">Semana 3</button>
+      <button class="semana-btn" data-semana="4">Semana 4</button>
+      <button class="semana-btn" data-semana="5">Semana 5</button>
+    </div>
+  
+    <div class="contenedor-principal">
+      <!-- Partidos -->
+      <div class="partidos-semana" id="partidosSemana"></div>
+  
+      <!-- Clasificación -->
+      <div class="clasificacion">
+        <h2>Alpha group</h2>
+        <table id="group-alpha-table">
+          <thead>
+            <tr>
+              <th>Team</th>
+              <th>W-L</th>
+              <th>Maps</th>
+              <th>Map diff</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+  
+        <h2>Omega group</h2>
+        <table id="group-omega-table">
+          <thead>
+            <tr>
+              <th>Team</th>
+              <th>W-L</th>
+              <th>Maps</th>
+              <th>Map diff</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+  
+
+  <script src="vct-americas.js"></script>
+</body>
+</html>
