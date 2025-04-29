@@ -8,31 +8,27 @@ function actualizarSemana() {
     btn.classList.toggle('selected', btn.dataset.semana == semanaActual);
   });
 
-  fetch(`http://localhost:3000/api/partidos?liga_id=${ligaActual}`)
+  fetch(`/api/partidos?liga_id=${ligaActual}`)
     .then(res => res.json())
     .then(partidos => {
-      // Filtra los partidos por la semana actual
       const partidosDeLaSemana = partidos.filter(p => p.semana == semanaActual);
       renderizarPartidos(partidosDeLaSemana);
     })
     .catch(err => console.error('❌ Error al cargar partidos de la semana:', err));
 }
 
-
-
 // 🎯 Renderiza partidos dinámicamente
 function renderizarPartidos(partidos) {
   const contenedor = document.getElementById('partidosSemana');
   if (!contenedor) return;
 
-  contenedor.innerHTML = ''; // Limpiar los partidos previos
+  contenedor.innerHTML = '';
 
   partidos.forEach(partido => {
-    // Asegurarse de que los datos de los equipos están bien estructurados
-    const equipo1_logo = partido.equipo1_logo || 'ruta_default_logo.jpg'; // Logo por defecto si no existe
-    const equipo2_logo = partido.equipo2_logo || 'ruta_default_logo.jpg'; // Logo por defecto si no existe
-    const equipo1_nombre = partido.equipo1_nombre || 'Equipo 1'; // Nombre por defecto si no existe
-    const equipo2_nombre = partido.equipo2_nombre || 'Equipo 2'; // Nombre por defecto si no existe
+    const equipo1_logo = partido.equipo1_logo || 'ruta_default_logo.jpg';
+    const equipo2_logo = partido.equipo2_logo || 'ruta_default_logo.jpg';
+    const equipo1_nombre = partido.equipo1_nombre || 'Equipo 1';
+    const equipo2_nombre = partido.equipo2_nombre || 'Equipo 2';
 
     const div = document.createElement('div');
     div.className = 'partido';
@@ -81,8 +77,6 @@ function renderizarPartidos(partidos) {
   });
 }
 
-
-
 // 🧩 Inicializa eventos por partido
 function inicializarEventosDePartido(partidoDiv) {
   const logoButtons = partidoDiv.querySelectorAll('.logo-btn');
@@ -127,7 +121,7 @@ function enviarResultadoDesdePartido(partido) {
     liga_id: ligaActual
   };
 
-  fetch('http://localhost:3000/api/resultado', {
+  fetch('/api/resultado', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(datos)
@@ -142,7 +136,7 @@ function enviarResultadoDesdePartido(partido) {
 
 // 📊 Clasificación
 function cargarClasificacion() {
-  fetch(`http://localhost:3000/api/clasificacion?liga_id=${ligaActual}`)
+  fetch(`/api/clasificacion?liga_id=${ligaActual}`)
     .then(res => res.json())
     .then(data => {
       const equiposAlpha = data.filter(e => e.equipo_grupo === 'Alpha');
@@ -191,9 +185,9 @@ document.querySelectorAll('.semana-btn').forEach(btn => {
 
 // 🚀 Inicialización
 document.addEventListener('DOMContentLoaded', () => {
-  fetch('http://localhost:3000/api/sincronizar-resultados-confirmados', { method: 'POST' })
+  fetch('/api/sincronizar-resultados-confirmados', { method: 'POST' })
     .then(res => res.json())
-    .then(() => fetch('http://localhost:3000/api/inicializar-resultados', { method: 'POST' }))
+    .then(() => fetch('/api/inicializar-resultados', { method: 'POST' }))
     .then(res => res.json())
     .then(() => {
       cargarClasificacion();
