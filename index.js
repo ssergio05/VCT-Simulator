@@ -61,13 +61,15 @@ app.get('/', (req, res) => {
   // Ruta para obtener la clasificación de los equipos
   // GET para obtener la clasificación con criterios personalizados
   app.get('/api/clasificacion', async (req, res) => {
-    const ligaId = req.query.liga_id; // <-- recoger el id de liga desde el query
-
+    const ligaId = req.query.liga_id;
+  
     if (!ligaId) {
       return res.status(400).json({ error: 'liga_id es requerido' });
     }
-
+  
     try {
+      console.log('🔍 Obteniendo clasificación para liga:', ligaId);
+  
       const [equipos] = await connection.promise().query(`
         SELECT 
           e.id AS equipo_id,
@@ -94,19 +96,24 @@ app.get('/', (req, res) => {
         WHERE e.liga_id = ?
         GROUP BY e.id
       `, [ligaId, ligaId]);
-
+  
+      console.log('📋 Equipos obtenidos:', equipos);
+  
       const [partidosConfirmados] = await connection.promise().query(`
         SELECT * FROM partidos WHERE resultado_confirmado = 1 AND liga_id = ?
       `, [ligaId]);
-
+  
+      console.log('📋 Partidos confirmados:', partidosConfirmados);
+  
       const clasificacionOrdenada = ordenarEquipos(equipos, partidosConfirmados);
       res.json(clasificacionOrdenada);
-
+  
     } catch (err) {
-      console.error('❌ Error al obtener clasificación:', err);
-      res.status(500).json({ error: 'Error al obtener la clasificación' });
+      console.error('❌ Error al obtener clasificación:', err.message);
+      res.status(500).json({ error: 'Error al obtener la clasificación', detalles: err.message });
     }
   });
+  
 
 
   // Función para ordenar equipos según los criterios de clasificación
