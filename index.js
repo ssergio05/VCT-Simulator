@@ -13,14 +13,15 @@ app.use(express.static(path.join(__dirname, 'Frontend')));
 
 // Crear un pool de conexiones
 const pool = mysql.createPool({
-  host: process.env.MYSQLHOST,
-  user: process.env.MYSQLUSER,
-  password: process.env.MYSQLPASSWORD,
-  database: process.env.MYSQLDATABASE,
+  host: process.env.MYSQLHOST || 'localhost',
+  user: process.env.MYSQLUSER || 'root',
+  password: process.env.MYSQLPASSWORD || '#010jQ164',
+  database: process.env.MYSQLDATABASE || 'vct_emea_simulator',
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0
 });
+
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'Frontend', 'main.html'));
@@ -50,16 +51,31 @@ app.get('/api/clasificacion', async (req, res) => {
 
   try {
     const [equipos] = await pool.query(`
-      SELECT e.id AS equipo_id, e.nombre AS equipo_nombre, e.grupo AS equipo_grupo,
-        COALESCE(SUM(CASE WHEN p.equipo1_id = e.id AND p.score_equipo1 > p.score_equipo2 THEN 1 WHEN p.equipo2_id = e.id AND p.score_equipo2 > p.score_equipo1 THEN 1 ELSE 0 END), 0) AS victorias,
-        COALESCE(SUM(CASE WHEN p.equipo1_id = e.id AND p.score_equipo1 < p.score_equipo2 THEN 1 WHEN p.equipo2_id = e.id AND p.score_equipo2 < p.score_equipo1 THEN 1 ELSE 0 END), 0) AS derrotas,
-        COALESCE(SUM(CASE WHEN p.equipo1_id = e.id THEN p.score_equipo1 WHEN p.equipo2_id = e.id THEN p.score_equipo2 ELSE 0 END), 0) AS mapas_ganados,
-        COALESCE(SUM(CASE WHEN p.equipo1_id = e.id THEN p.score_equipo2 WHEN p.equipo2_id = e.id THEN p.score_equipo1 ELSE 0 END), 0) AS mapas_perdidos
+      SELECT 
+        e.id AS equipo_id,
+        e.nombre AS equipo_nombre,
+        e.grupo AS equipo_grupo,
+        e.logo AS logo,
+        COALESCE(SUM(CASE WHEN p.equipo1_id = e.id AND p.score_equipo1 > p.score_equipo2 THEN 1
+                          WHEN p.equipo2_id = e.id AND p.score_equipo2 > p.score_equipo1 THEN 1
+                          ELSE 0 END), 0) AS victorias,
+        COALESCE(SUM(CASE WHEN p.equipo1_id = e.id AND p.score_equipo1 < p.score_equipo2 THEN 1
+                          WHEN p.equipo2_id = e.id AND p.score_equipo2 < p.score_equipo1 THEN 1
+                          ELSE 0 END), 0) AS derrotas,
+        COALESCE(SUM(CASE WHEN p.equipo1_id = e.id THEN p.score_equipo1
+                          WHEN p.equipo2_id = e.id THEN p.score_equipo2
+                          ELSE 0 END), 0) AS mapas_ganados,
+        COALESCE(SUM(CASE WHEN p.equipo1_id = e.id THEN p.score_equipo2
+                          WHEN p.equipo2_id = e.id THEN p.score_equipo1
+                          ELSE 0 END), 0) AS mapas_perdidos
       FROM equipos e
       LEFT JOIN partidos p ON (e.id = p.equipo1_id OR e.id = p.equipo2_id) AND p.liga_id = ?
       WHERE e.liga_id = ?
-      GROUP BY e.id
+      GROUP BY e.id, e.nombre, e.grupo, e.logo
     `, [ligaId, ligaId]);
+
+    // Aquí logueamos para ver qué llega desde la base de datos
+    console.log('Equipos crudos con logo:', equipos);
 
     const [partidosConfirmados] = await pool.query(`
       SELECT * FROM partidos WHERE resultado_confirmado = 1 AND liga_id = ?
@@ -72,6 +88,9 @@ app.get('/api/clasificacion', async (req, res) => {
     res.status(500).json({ error: 'Error al obtener la clasificación', detalles: err.message });
   }
 });
+
+
+
 
 function ordenarEquipos(equipos, partidos) {
   const grupos = {};

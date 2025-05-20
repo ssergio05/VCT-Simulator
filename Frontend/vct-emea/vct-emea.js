@@ -1,6 +1,36 @@
 let semanaActual = 1;
 const PARTIDOS_POR_SEMANA = 6;
-let ligaActual = 1; // 👈 ID de la liga seleccionada (por defecto VCT EMEA, por ejemplo)
+let ligaActual = 1; // 👈 ID de la liga seleccionada (por defecto VCT EMEA)
+
+// Mostrar instrucciones y preparar botón cerrar
+document.addEventListener('DOMContentLoaded', () => {
+  const instrucciones = document.getElementById('instructions');
+  instrucciones.style.display = 'block';
+
+  // Crear botón cerrar dentro de #instructions
+  const btnCerrar = document.createElement('button');
+  btnCerrar.textContent = 'Close';
+  instrucciones.appendChild(btnCerrar);
+
+  // Bloquear scroll mientras está abierto
+  document.body.classList.add('modal-open');
+
+  btnCerrar.addEventListener('click', () => {
+    instrucciones.style.display = 'none';
+    document.body.classList.remove('modal-open');
+  });
+
+  // Inicialización habitual de la app
+  fetch('/api/sincronizar-resultados-confirmados', { method: 'POST' })
+    .then(res => res.json())
+    .then(() => fetch('/api/inicializar-resultados', { method: 'POST' }))
+    .then(res => res.json())
+    .then(() => {
+      cargarClasificacion();
+      actualizarSemana();
+    })
+    .catch(err => console.error('❌ Error en la inicialización:', err));
+});
 
 // ✨ Actualiza la pestaña activa y partidos desde API
 function actualizarSemana() {
@@ -137,8 +167,13 @@ function enviarResultadoDesdePartido(partido) {
 // 📊 Clasificación
 function cargarClasificacion() {
   fetch(`/api/clasificacion?liga_id=${ligaActual}`)
-    .then(res => res.json())
+    .then(res => {
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+      return res.json();
+    })
     .then(data => {
+      console.log('Datos de clasificación recibidos:', data); // <--- Aquí el log
+
       const equiposAlpha = data.filter(e => e.equipo_grupo === 'Alpha');
       const equiposOmega = data.filter(e => e.equipo_grupo === 'Omega');
 
@@ -148,6 +183,7 @@ function cargarClasificacion() {
     .catch(error => console.error('❌ Error al obtener la clasificación:', error));
 }
 
+
 function actualizarTabla(tablaId, datos) {
   const tabla = document.getElementById(tablaId);
   const tbody = tabla?.querySelector('tbody');
@@ -156,13 +192,20 @@ function actualizarTabla(tablaId, datos) {
   tbody.innerHTML = '';
 
   datos.forEach((dato, index) => {
+    const logoUrl = (dato.logo && dato.logo.startsWith('http')) 
+      ? dato.logo 
+      : 'ruta_default_logo.jpg';
+
     const fila = document.createElement('tr');
     const winLoss = `${dato.victorias}-${dato.derrotas}`;
     const mapas = `${dato.mapas_ganados}-${dato.mapas_perdidos}`;
     const diferencia = dato.mapas_ganados - dato.mapas_perdidos;
 
     fila.innerHTML = `
-      <td>${dato.equipo_nombre}</td>
+      <td style="display: flex; align-items: center; gap: 8px;">
+        <img src="${logoUrl}" alt="${dato.equipo_nombre}" style="height: 24px; width: 24px; object-fit: contain;" />
+        ${dato.equipo_nombre}
+      </td>
       <td>${winLoss}</td>
       <td>${mapas}</td>
       <td>${diferencia}</td>
@@ -175,23 +218,14 @@ function actualizarTabla(tablaId, datos) {
   });
 }
 
+
+
+
+
 // 🧠 Botones de semana
 document.querySelectorAll('.semana-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     semanaActual = parseInt(btn.dataset.semana);
     actualizarSemana();
   });
-});
-
-// 🚀 Inicialización
-document.addEventListener('DOMContentLoaded', () => {
-  fetch('/api/sincronizar-resultados-confirmados', { method: 'POST' })
-    .then(res => res.json())
-    .then(() => fetch('/api/inicializar-resultados', { method: 'POST' }))
-    .then(res => res.json())
-    .then(() => {
-      cargarClasificacion();
-      actualizarSemana();
-    })
-    .catch(err => console.error('❌ Error en la inicialización:', err));
 });
