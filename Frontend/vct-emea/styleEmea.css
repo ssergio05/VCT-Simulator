@@ -176,7 +176,6 @@
   color: rgb(0, 0, 0);
   font-weight: bold;
   border: none;
-  box-shadow: 0 0 0 2px #388e3c; /* Un leve borde exterior verde */
 }
 
   
@@ -243,7 +242,7 @@
     padding: 1rem;
     border-radius: 8px;
     width: auto; /* Ajuste automático */
-    height: 620px; /* Ajuste automático */
+    height: auto; /* Ajuste automático */
     min-width: 300px; /* Un mínimo para que no quede feo en móviles */
     max-width: 100%; /* Que nunca se pase del ancho disponible */
   }
