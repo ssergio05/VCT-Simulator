@@ -36,45 +36,31 @@
     gap: 20px; /* Añadimos espacio entre los elementos */
   }
   
-  .navbar-title {
-    color: #000000;
-    font-size: 24px;
-    text-align: left;
-    display: block;
-    text-decoration: none; /* Elimina el subrayado de los enlaces */
-  }
+  .navbar-title,
+.navbar-title-americas,
+.navbar-title-pacific,
+.navbar-title-emea {
+  color: #000;
+  font-size: 20px;
+  text-align: left;
+  display: block;
+  text-decoration: none;
+  font-weight: bold;
+  background-color: #e73056;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+}
 
-  .navbar-title-emea{
-    color: #000000;
-    font-size: 24px;
-    text-align: left;
-    display: block;
-    text-decoration: none; /* Elimina el subrayado de los enlaces */
-  }
-  
-  .navbar-title-americas{
-    color: #000000;
-    font-size: 24px;
-    text-align: left;
-    display: block;
-    text-decoration: none; /* Elimina el subrayado de los enlaces */
-  }
-
-  .navbar-title-pacific{
-    color: #000000;
-    font-size: 24px;
-    text-align: left;
-    display: block;
-    text-decoration: none; /* Elimina el subrayado de los enlaces */
-  }
-
-  .navbar-title-china{
-    color: #000000;
-    font-size: 24px;
-    text-align: left;
-    display: block;
-    text-decoration: none; /* Elimina el subrayado de los enlaces */
-  }
+.navbar-title:hover,
+.navbar-title-americas:hover,
+.navbar-title-pacific:hover,
+.navbar-title-emea:hover {
+  background-color: #c62848;
+;
+  transform: scale(1.05);
+}
 
   .main-content {
       margin-top: 60px; /* Asegurar que no se solape con la navbar */
@@ -113,7 +99,6 @@
   .semana-selector button.selected {
     color: #000;
       background-color: #e73056;
-      border-color: #06c;
   }
   
   .semana-actual {
@@ -336,4 +321,21 @@
 /* Opcional: bloquear scroll cuando instrucciones está abierto */
 body.modal-open {
   overflow: hidden;
+}
+
+#reactivarInstrucciones {
+  padding: 10px 20px;
+  background-color: #e73056;
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#reactivarInstrucciones:hover {
+  background-color: #c62848;
+  transform: scale(1.05);
 }

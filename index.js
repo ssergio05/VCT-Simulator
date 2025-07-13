@@ -13,14 +13,17 @@ app.use(express.static(path.join(__dirname, 'Frontend')));
 
 // Crear un pool de conexiones
 const pool = mysql.createPool({
-  host: process.env.MYSQLHOST,
-  user: process.env.MYSQLUSER,
-  password: process.env.MYSQLPASSWORD,
-  database: process.env.MYSQLDATABASE,
+  host: process.env.MYSQLHOST || 'localhost',
+  user: process.env.MYSQLUSER || 'root',
+  password: process.env.MYSQLPASSWORD || '#010jQ164',
+  database: process.env.MYSQLDATABASE || 'vct_emea_simulator',
+  port: process.env.MYSQLPORT ? parseInt(process.env.MYSQLPORT) : 3306,
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0
 });
+
+
 
 
 app.get('/', (req, res) => {

@@ -5,20 +5,45 @@ let ligaActual = 4; // 👈 ID de la liga seleccionada (por defecto VCT EMEA)
 // Mostrar instrucciones y preparar botón cerrar
 document.addEventListener('DOMContentLoaded', () => {
   const instrucciones = document.getElementById('instructions');
-  instrucciones.style.display = 'block';
+  const checkbox = document.getElementById('noMostrarInstrucciones');
+  const btnReactivar = document.getElementById('reactivarInstrucciones');
 
-  // Crear botón cerrar dentro de #instructions
-  const btnCerrar = document.createElement('button');
-  btnCerrar.textContent = 'Close';
-  instrucciones.appendChild(btnCerrar);
+  // Mostrar instrucciones si no está desactivado
+  const noMostrar = localStorage.getItem('noMostrarInstrucciones') === 'true';
 
-  // Bloquear scroll mientras está abierto
-  document.body.classList.add('modal-open');
+  if (!noMostrar) {
+    instrucciones.style.display = 'block';
+    document.body.classList.add('modal-open');
+  } else {
+    instrucciones.style.display = 'none';
+  }
+
+  // Botón cerrar
+  let btnCerrar = instrucciones.querySelector('button');
+  if (!btnCerrar) {
+    btnCerrar = document.createElement('button');
+    btnCerrar.textContent = 'Close';
+    instrucciones.appendChild(btnCerrar);
+  }
 
   btnCerrar.addEventListener('click', () => {
     instrucciones.style.display = 'none';
     document.body.classList.remove('modal-open');
+
+    if (checkbox.checked) {
+      localStorage.setItem('noMostrarInstrucciones', 'true');
+    }
   });
+
+  // 🆕 Botón para reactivar instrucciones
+  if (btnReactivar) {
+    btnReactivar.addEventListener('click', () => {
+      localStorage.removeItem('noMostrarInstrucciones');
+      instrucciones.style.display = 'block';
+      checkbox.checked = false;
+      document.body.classList.add('modal-open');
+    });
+  }
 
   // Inicialización habitual de la app
   fetch('/api/sincronizar-resultados-confirmados', { method: 'POST' })

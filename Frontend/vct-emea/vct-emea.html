@@ -9,23 +9,32 @@
 <body>
 
   <div id="instructions">
-    <p id="instruction-text">
+  <p id="instruction-text">
     <strong>Welcome! Here's how to use the match manager:</strong><br>
     - Click on a team's logo to select it as the winner.<br>
     - Select the score with the buttons.<br>
     - The standings will automatically update based on the results.<br>
     - To reset everything to the original state, just refresh the page.
   </p>
-  </div>
+  <label>
+    <input type="checkbox" id="noMostrarInstrucciones" />
+    Don't show me again
+  </label>
+</div>
+
 
   <nav class="navbar">
-    <div class="nav-left">
-      <a href="../main.html" class="navbar-title">Inicio</a>
-      <a href="../vct-americas/vct-americas.html" class="navbar-title-americas">VCT Americas</a>
-      <a href="../vct-pacific/vct-pacific.html" class="navbar-title-pacific">VCT Pacific</a>
-      <a href="../vct-china/vct-china.html" class="navbar-title-china">VCT China</a>
-    </div>
-  </nav>
+  <div class="nav-left">
+    <a href="../main.html" class="navbar-title">Main page</a>
+    <a href="../vct-americas/vct-americas.html" class="navbar-title-americas">VCT Americas</a>
+    <a href="../vct-pacific/vct-pacific.html" class="navbar-title-pacific">VCT Pacific</a>
+    <a href="../vct-china/vct-china.html" class="navbar-title-china">VCT China</a>
+  </div>
+  <div class="nav-right">
+    <button id="reactivarInstrucciones">Show instructions</button>
+  </div>
+</nav>
+
 
   <main class="main-content">
     <div class="semana-selector">
@@ -43,7 +52,7 @@
 
       <!-- Clasificación -->
       <div class="clasificacion">
-        <h2>Alpha group</h2>
+        <h2 style="padding-bottom: 10px;">Alpha group</h2>
         <table id="group-alpha-table">
           <thead>
             <tr>
@@ -56,7 +65,7 @@
           <tbody></tbody>
         </table>
 
-        <h2>Omega group</h2>
+        <h2 style="padding-bottom: 10px;">Omega group</h2>
         <table id="group-omega-table">
           <thead>
             <tr>
