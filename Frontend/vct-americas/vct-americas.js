@@ -254,3 +254,12 @@ document.querySelectorAll('.semana-btn').forEach(btn => {
     actualizarSemana();
   });
 });
+
+document.getElementById("resetButton")?.addEventListener("click", async () => {
+  try {
+    await fetch("/api/sincronizar-resultados-confirmados", { method: "POST" });
+    location.reload();
+  } catch (error) {
+    console.error("Error al sincronizar resultados:", error);
+  }
+});

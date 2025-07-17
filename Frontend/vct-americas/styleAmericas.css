@@ -321,3 +321,19 @@ body.modal-open {
   background-color: #d44f07;
   transform: scale(1.05);
 }
+
+.reset-button {
+  padding: 12px 24px;
+  font-size: 16px;
+  background-color: rgb(67, 10, 10);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.reset-button:hover {
+  background-color: rgb(100, 20, 20); /* Un poco más claro */
+  transform: scale(1.05);
+}
